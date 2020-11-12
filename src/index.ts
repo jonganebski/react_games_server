@@ -7,14 +7,18 @@ import { handleSudokuGet, handleSudokuPost } from "./sudoku";
 import { handleTetrisGet, handleTetrisPost } from "./tetris";
 
 const PORT = process.env.PORT || 4000;
+const ORIGIN_URL =
+  process.env.NODE_ENV === "dev"
+    ? "http://localhost:3000"
+    : "https://react-games-misute.netlify.app";
 
 export const redis = new Redis(process.env.REDIS_URL);
+
 const app = express();
 
 app.use(helmet());
 
-process.env.NODE_ENV === "dev" &&
-  app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors({ origin: ORIGIN_URL }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
